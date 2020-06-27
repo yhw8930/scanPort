@@ -11,7 +11,8 @@ func Usage(str string) {
 	flag.PrintDefaults()
 }
 
-func Mkdir(path string){
+//创建日志目录
+func Mkdir(path string) {
 	f, err := os.Stat(path)
 	if err != nil || f.IsDir() == false {
 		if err := os.Mkdir(path, os.ModePerm); err != nil {

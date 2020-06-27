@@ -4,21 +4,26 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"github.com/xs25cn/scanPort/lib"
-	"github.com/xs25cn/scanPort/scan"
+	"scanPort/lib"
+	"scanPort/scan"
 	"time"
 )
 
 var (
 	startTime = time.Now()
-	ip        = flag.String("ip", "127.0.0.1", "ip地址 例如:-ip=192.168.0.1-255 或直接输入域名 xs25.cn")
+	ip        = flag.String("ip", "127.0.0.1", "ip地址 例如:-ip=192.168.0.1-255 或直接输入域名 yhw.com")
 	port      = flag.String("p", "80-1000", "端口号范围 例如:-p=80,81,88-1000")
 	path      = flag.String("path", "log", "日志地址 例如:-path=log")
 	timeout   = flag.Int("t", 200, "超时时长(毫秒) 例如:-t=200")
-	process   = flag.Int("n", 100, "进程数 例如:-n=10")
+	process   = flag.Int("n", 100, "协程数 例如:-n=10")
 	h         = flag.Bool("h", false, "帮助信息")
 )
+
+//IP网络扫描技术的研究与实践 127.0.0.1
 //go run main.go -h
+//go run main.go -ip=www.ip.com -p=80-4000
+//go run main.go -ip=127.0.0.1 -p=80-900,1001 -n=50 -path=test
+//go run main.go -ip=192.168.0.103-110 -p=100-5000
 func main() {
 	flag.Parse()
 	//帮助信息
@@ -33,7 +38,7 @@ func main() {
 	lib.Mkdir(*path)
 
 	//初始化
-	scanIP:=scan.NewScanIp(*timeout,*process,true)
+	scanIP := scan.NewScanIp(*timeout, *process, true)
 
 	ips, err := scanIP.GetAllIp(*ip)
 	if err != nil {
